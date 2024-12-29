@@ -72,6 +72,11 @@ find_library_create_target(${TRT_LIB} ${TRT_LIB_NAME} SHARED ${TRT_LIB_DIR})
 message(${TRT_INCLUDE_DIR})
 include_directories("${TRT_INCLUDE_DIR}")
 
+message(STATUS "TRT library status:")
+message(STATUS "    version: ${TRT_VERSION}")
+message(STATUS "    libraries: ${TRT_LIB_DIR}")
+message(STATUS "    trt include path: ${TRT_INCLUDE_DIR}")
+
 if(${CUDAToolkit_VERSION} VERSION_GREATER_EQUAL "11")
   add_definitions("-DENABLE_BF16")
   message(
@@ -132,18 +137,18 @@ target_link_libraries(executorExampleAdvanced nvinfer_plugin_tensorrt_llm
 
 # MultiInstance
 
-find_package(MPI REQUIRED)
-message(STATUS "Using MPI_C_INCLUDE_DIRS: ${MPI_C_INCLUDE_DIRS}")
-message(STATUS "Using MPI_C_LIBRARIES: ${MPI_C_LIBRARIES}")
-include_directories(${MPI_C_INCLUDE_DIRS})
+# find_package(MPI REQUIRED)
+# message(STATUS "Using MPI_C_INCLUDE_DIRS: ${MPI_C_INCLUDE_DIRS}")
+# message(STATUS "Using MPI_C_LIBRARIES: ${MPI_C_LIBRARIES}")
+# include_directories(${MPI_C_INCLUDE_DIRS})
 
-add_executable(executorExampleAdvancedMultiInstances
-               executorExampleAdvancedMultiInstances.cpp)
-target_link_libraries(
-  executorExampleAdvancedMultiInstances nvinfer_plugin_tensorrt_llm
-  cxxopts::cxxopts ${MPI_C_LIBRARIES})
+# add_executable(executorExampleAdvancedMultiInstances
+#                executorExampleAdvancedMultiInstances.cpp)
+# target_link_libraries(
+#   executorExampleAdvancedMultiInstances nvinfer_plugin_tensorrt_llm
+#   cxxopts::cxxopts ${MPI_C_LIBRARIES})
 
 # FastLogits
-add_executable(executorExampleFastLogits executorExampleFastLogits.cpp)
-target_link_libraries(executorExampleFastLogits nvinfer_plugin_tensorrt_llm
-                      cxxopts::cxxopts ${MPI_C_LIBRARIES})
+# add_executable(executorExampleFastLogits executorExampleFastLogits.cpp)
+# target_link_libraries(executorExampleFastLogits nvinfer_plugin_tensorrt_llm
+#                       cxxopts::cxxopts ${MPI_C_LIBRARIES})
