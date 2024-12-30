@@ -31,7 +31,7 @@ DOCKER_PROGRESS    ?= auto
 CUDA_ARCHS         ?=
 BUILD_WHEEL_OPTS   ?=
 BUILD_WHEEL_ARGS   ?= $(shell grep 'ARG BUILD_WHEEL_ARGS=' Dockerfile.multi | grep -o '=.*' | tr -d '="')$(if $(CUDA_ARCHS), --cuda_architectures $(CUDA_ARCHS))$(if $(BUILD_WHEEL_OPTS), $(BUILD_WHEEL_OPTS))
-TORCH_INSTALL_TYPE ?= skip
+TORCH_INSTALL_TYPE ?= pypi
 CUDA_VERSION       ?=
 CUDNN_VERSION      ?=
 NCCL_VERSION       ?=
@@ -124,7 +124,7 @@ endif
     		--env "CCACHE_BASEDIR=${CODE_DIR}" \
     		--workdir $(WORK_DIR) \
     		--hostname $(shell hostname)-$* \
-    		--name $(CONTAINER_NAME)-$*-$(USER_NAME) \
+    		--name $(CONTAINER_NAME)-$*-$(USER_NAME)-0.15 \
 			--tmpfs /tmp:exec \
     		$(IMAGE_WITH_TAG)$(IMAGE_TAG_SUFFIX) $(RUN_CMD)
 
