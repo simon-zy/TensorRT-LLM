@@ -31,7 +31,7 @@ DOCKER_PROGRESS    ?= auto
 CUDA_ARCHS         ?=
 BUILD_WHEEL_OPTS   ?=
 BUILD_WHEEL_ARGS   ?= $(shell grep 'ARG BUILD_WHEEL_ARGS=' Dockerfile.multi | grep -o '=.*' | tr -d '="')$(if $(CUDA_ARCHS), --cuda_architectures $(CUDA_ARCHS))$(if $(BUILD_WHEEL_OPTS), $(BUILD_WHEEL_OPTS))
-TORCH_INSTALL_TYPE ?= skip
+TORCH_INSTALL_TYPE ?= pypi
 CUDA_VERSION       ?=
 CUDNN_VERSION      ?=
 NCCL_VERSION       ?=

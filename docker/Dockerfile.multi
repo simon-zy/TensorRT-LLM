@@ -5,6 +5,8 @@ ARG DEVEL_IMAGE=devel
 
 FROM ${BASE_IMAGE}:${BASE_TAG} as base
 
+USER root
+
 # https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
 # The default values come from `nvcr.io/nvidia/pytorch`
 ENV BASH_ENV=${BASH_ENV:-/etc/bash.bashrc}
@@ -16,15 +18,20 @@ FROM base as devel
 COPY docker/common/install_base.sh install_base.sh
 RUN bash ./install_base.sh && rm install_base.sh
 
-COPY docker/common/install_cmake.sh install_cmake.sh
-RUN bash ./install_cmake.sh && rm install_cmake.sh
+# COPY docker/common/install_cmake.sh install_cmake.sh
+# RUN bash ./install_cmake.sh && rm install_cmake.sh
 
 COPY docker/common/install_ccache.sh install_ccache.sh
 RUN bash ./install_ccache.sh && rm install_ccache.sh
 
 # Only take effect when the base image is 12.4.0-devel-centos7.
-COPY docker/common/install_cuda_toolkit.sh install_cuda_toolkit.sh
-RUN bash ./install_cuda_toolkit.sh && rm install_cuda_toolkit.sh
+# COPY docker/common/install_cuda_toolkit.sh install_cuda_toolkit.sh
+# RUN bash ./install_cuda_toolkit.sh && rm install_cuda_toolkit.sh
+
+COPY docker/common/cuda_12.6.2_560.35.03_linux.run .
+RUN bash cuda_12.6.2_560.35.03_linux.run --silent --toolkit --override && rm cuda_12.6.2_560.35.03_linux.run
+ENV PATH=/usr/local/cuda/bin:${PATH} \
+    LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
 
 # Download & install internal TRT release
 ARG TRT_VER
@@ -50,7 +57,7 @@ COPY docker/common/install_mpi4py.sh install_mpi4py.sh
 RUN bash ./install_mpi4py.sh && rm install_mpi4py.sh
 
 # Install PyTorch
-ARG TORCH_INSTALL_TYPE="skip"
+ARG TORCH_INSTALL_TYPE="pypi"
 COPY docker/common/install_pytorch.sh install_pytorch.sh
 RUN bash ./install_pytorch.sh $TORCH_INSTALL_TYPE && rm install_pytorch.sh
 

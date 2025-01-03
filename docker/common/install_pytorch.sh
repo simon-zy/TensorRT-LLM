@@ -76,7 +76,7 @@ install_from_source() {
 
 install_from_pypi() {
     pip3 uninstall -y torch torchvision
-    pip3 install torch==${TORCH_VERSION} torchvision
+    pip3 install torch==${TORCH_VERSION} torchvision -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 }
 
 case "$1" in

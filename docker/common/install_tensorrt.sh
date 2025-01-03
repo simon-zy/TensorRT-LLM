@@ -37,11 +37,11 @@ if [[ $(echo $NVCC_VERSION_OUTPUT | grep -oP "\d+\.\d+" | head -n 1) != ${CUDA_V
 fi
 
 install_ubuntu_requirements() {
-    apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates
+    apt-get update && apt-get install -y --no-install-recommends gnupg2
     ARCH=$(uname -m)
     if [ "$ARCH" = "amd64" ];then ARCH="x86_64";fi
     if [ "$ARCH" = "aarch64" ];then ARCH="sbsa";fi
-    curl -fsSLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/${ARCH}/cuda-keyring_1.0-1_all.deb
+    curl -fsSLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/${ARCH}/cuda-keyring_1.0-1_all.deb
     dpkg -i cuda-keyring_1.0-1_all.deb
 
     apt-get update
